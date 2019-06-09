@@ -10,6 +10,13 @@ export default class Command extends React.Component {
     this.props.commandProps.changeWinCondition(e.target.value)
   }
 
+  _parseIntState(number, state) {
+    if (parseInt(number) !== number) {
+      return state = `虽然你写的是小数，但是会被当做 ${Math.ceil(number)}处理`
+    }
+    return state
+  }
+
   render() {
     const history = this.props.commandProps.history
     const logList = []
@@ -17,13 +24,13 @@ export default class Command extends React.Component {
       if (i) {
         const logItem = <button className="log" key={i} onClick={() => {
           this.props.commandProps.onClick(i)
-        }}>Go to move #{i}</button>
+        }}>点击撤回到第{i}步</button>
         logList.push(logItem)
       }
       else {
         const logItem = <button className="log" key={i} onClick={() => {
           this.props.commandProps.onClick(i)
-        }}>Go to game start</button>
+        }}>重新开始游戏</button>
         logList.push(logItem)
       }
     }
@@ -75,6 +82,9 @@ export default class Command extends React.Component {
     else if (winCondition >= 30) {
       winConditionToSmall = '这大概就是大佬吧'
     }
+
+    numberTooSmall = this._parseIntState(number, numberTooSmall)
+    winConditionToSmall = this._parseIntState(winCondition, winConditionToSmall)
 
     return (
       <div className="command">
