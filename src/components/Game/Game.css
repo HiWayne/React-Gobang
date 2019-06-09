@@ -1,0 +1,19 @@
+.game {
+  display: flex;
+  justify-content: center;
+}
+
+.left {
+  margin-right: 50px;
+}
+
+.status {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.has-color {
+  background: red;
+  color: white;
+}
+
