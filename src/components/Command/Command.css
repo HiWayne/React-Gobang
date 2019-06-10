@@ -10,10 +10,15 @@
   display: block;
   margin: 10px auto;
   width: 70%;
-  height: 30px;
+  height: 40px;
 }
 
 .warnning {
   font-size: 14px;
   color: red;
+}
+
+.has-border {
+  border: 2px solid #000;
+  font-weight: bold;
 }

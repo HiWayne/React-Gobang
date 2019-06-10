@@ -11,7 +11,9 @@ class Game extends React.Component {
       history: [{
         squares: Array(this.props.number * this.props.number).fill(null),
         xIsNext: true,
-        winner: null
+        winner: null,
+        index: null,
+        checked: null
       }],
       stepNumber: 0
     }
@@ -20,6 +22,8 @@ class Game extends React.Component {
   handelClick = (index) => {
     const history = this.state.history.slice(0, this.state.stepNumber + 1)
     const lastItem = history.length - 1
+    //每次下棋都消除记录选中边框
+    history[lastItem].checked = null
     const squares = history[lastItem].squares.slice()
     if ( squares[index] || history[lastItem].winner) {
       return
@@ -27,15 +31,28 @@ class Game extends React.Component {
     squares[index] = history[lastItem].xIsNext ? 'X' : 'O'
     this.setState(state => {
       return {
-        history: history.concat([{ squares, xIsNext: !state.history[lastItem].xIsNext, winner: this.calculateWinner(squares, index, this.props.number, this.props.winCondition) }]),
+        history: history.concat([{
+          squares,
+          xIsNext: !state.history[lastItem].xIsNext,
+          winner: this.calculateWinner(squares, index, this.props.number, this.props.winCondition),
+          index,
+          checked: null
+        }]),
         stepNumber: history.length
       }
     })
   }
 
   returnHistory = (index) => {
-    this.setState({
-      stepNumber: index
+    this.setState(state => {
+      const newHistory = state.history.map(object => {
+        return Object.assign({}, object, {checked: null})
+      })
+      newHistory[index] = Object.assign({}, state.history[index], {checked: true})
+      return {
+        stepNumber: index,
+        history: newHistory
+      }
     })
   }
 

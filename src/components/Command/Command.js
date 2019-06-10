@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import './Command.css'
 
 export default class Command extends React.Component {
@@ -18,13 +19,25 @@ export default class Command extends React.Component {
   }
 
   render() {
+    let numberTooSmall = '', winConditionToSmall = '', number = this.props.commandProps.number, winCondition = this.props.commandProps.winCondition
     const history = this.props.commandProps.history
     const logList = []
     for (let i = 0, length = history.length; i < length; i++) {
       if (i) {
-        const logItem = <button className="log" key={i} onClick={() => {
+        const checked = history[i].checked
+        const index = history[i].index + 1
+        const tempRow = Math.ceil(index / number)
+        const row = tempRow === 0 ? 1 : tempRow
+        const tempColumn = index - Math.floor(index / number) * number
+        const column = tempColumn === 0 ? number : tempColumn
+        const chess = !history[i].xIsNext ? 'X' : 'O'
+        const className = classNames({
+          log: true,
+          "has-border": checked
+        })
+        const logItem = <button className={className} key={i} onClick={() => {
           this.props.commandProps.onClick(i)
-        }}>点击撤回到第{i}步</button>
+        }}>点击撤回到第{i}步：{chess}在{row}行{column}列</button>
         logList.push(logItem)
       }
       else {
@@ -35,7 +48,6 @@ export default class Command extends React.Component {
       }
     }
 
-    let numberTooSmall = '', winConditionToSmall = '', number = this.props.commandProps.number, winCondition = this.props.commandProps.winCondition
     if (2 < number && number < 5) {
       numberTooSmall = '原来你适合小一号的'
     }

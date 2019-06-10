@@ -23,7 +23,7 @@ class App extends React.Component {
       return
     }
     else if (transformNumber <= 300 && transformNumber >= 100) {
-      alert('这种级别的数字可能会有些卡，不过没关系我做过优化了，你可以随便往上加')
+      alert('这种级别的数字可能会有些卡，不过没关系我做过优化了，你可以尽情往上加')
     }
     this.setState({
       number: transformNumber
