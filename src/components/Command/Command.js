@@ -3,6 +3,13 @@ import classNames from 'classnames'
 import './Command.css'
 
 export default class Command extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      reversal: false
+    }
+  }
+
   handelChangeNumber = (e) => {
     this.props.commandProps.changeNumber(e.target.value)
   }
@@ -18,10 +25,18 @@ export default class Command extends React.Component {
     return state
   }
 
+  reverseHistory = () => {
+    this.setState(state => {
+      return {
+        reversal: !state.reversal
+      }
+    })
+  }
+
   render() {
     let numberTooSmall = '', winConditionToSmall = '', number = this.props.commandProps.number, winCondition = this.props.commandProps.winCondition
-    const history = this.props.commandProps.history
-    const logList = []
+    let history = this.props.commandProps.history
+    let logList = []
     for (let i = 0, length = history.length; i < length; i++) {
       if (i) {
         const checked = history[i].checked
@@ -35,7 +50,7 @@ export default class Command extends React.Component {
           log: true,
           "has-border": checked
         })
-        const logItem = <button className={className} key={i} onClick={() => {
+        const logItem = <button className={className} key={history[i].squares.join("")} onClick={() => {
           this.props.commandProps.onClick(i)
         }}>点击撤回到第{i}步：{chess}在{row}行{column}列</button>
         logList.push(logItem)
@@ -46,6 +61,13 @@ export default class Command extends React.Component {
         }}>重新开始游戏</button>
         logList.push(logItem)
       }
+    }
+    // 升/降序排列
+    if (this.state.reversal) {
+      const tempLogListLeft = logList.slice(0, 1)
+      const tempLogListRight = logList.slice(1)
+      tempLogListRight.reverse()
+      logList = tempLogListLeft.concat(tempLogListRight)
     }
 
     if (2 < number && number < 5) {
@@ -105,6 +127,9 @@ export default class Command extends React.Component {
         </div>
         <div>
           <label htmlFor="winCondition">胜利条件（几子连成一线）</label><br /><input type="number" id="winCondition" value={this.props.commandProps.winCondition} onChange={this.handelChangeWinCondition}></input><p className="warnning">{winConditionToSmall}</p>
+        </div>
+        <div>
+          <button onClick={this.reverseHistory}>{this.state.reversal ? '升序排列' : '降序排列'}</button>
         </div>
         {logList}
       </div>
