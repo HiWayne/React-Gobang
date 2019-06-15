@@ -2,7 +2,8 @@
 
 ## 描述
 
-这是一个React写的五子棋小游戏，你可以自定义棋盘的大小和游戏输赢规则，在自定义过程中你可能会触发一些小彩蛋。<br/><br/><br/>
+这是一个React写的五子棋小游戏，你可以自定义棋盘的大小和游戏输赢规则，在自定义过程中你可能会触发一些小彩蛋。<br/><br/>
+Fuck：无意中发现了我写的判断输赢的算法有bug，在棋盘边界位置落子，输赢结果可能会判断错误，有空修改一下。<br/><br/><br/>
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
